@@ -40,7 +40,7 @@ export const Page1 = () => {
                 Welcome Back
               </h1>
               <p className="text-base font-normal text-[#334155]">
-                Welcome back, Please enter your details
+                Welcome back, Please enter your detailss
               </p>
             </div>
             <div>

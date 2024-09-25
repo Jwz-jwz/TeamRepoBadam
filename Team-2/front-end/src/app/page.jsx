@@ -1,5 +1,10 @@
 import Image from "next/image";
+import SignInPage from "../../sign-in/Page";
 
 export default function Home() {
-  return <div>MAin page update</div>;
+  return (
+    <div>
+      <SignInPage />
+    </div>
+  );
 }

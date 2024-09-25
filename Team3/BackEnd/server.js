@@ -1,25 +1,43 @@
 import express from "express";
 import bodyParser from "body-parser";
 
-const port = 8888;
+const port = 8000;
 const app = express();
+
+const users = [
+  {
+    id: 1,
+    name: "Boloro",
+    password: "12345678",
+  },
+];
 
 app.use(bodyParser.json());
 
 app.get("/", (request, response) => {
-  response.send("Hello, Your GET request has arrived.");
+  response.send("Hello, GET request just arrived.");
 });
 
-app.post("/", (request, response) => {
+app.get("/sign-in", (request, response) => {
   const { name, password } = request.body;
 
   const registeredUser = users.filter(
     (user) => user.name === name && user.password === password
   );
 
-  response.send("Hello, Your POST request has arrived.");
+  if (registeredUser.length > 0) {
+    response.send("Successfully arrived");
+  } else {
+    response.send("User not found");
+  }
+});
+
+app.post("/sign-up", (request, response) => {
+  users.push(request.body);
+
+  response.send("User successfully signed up");
 });
 
 app.listen(port, () => {
-  console.log(`Server ajillaj start http://localhost:${port}`);
+  console.log(`Server is working http://localhost:${port}`);
 });

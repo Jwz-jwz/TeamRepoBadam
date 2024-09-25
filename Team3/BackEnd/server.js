@@ -11,6 +11,12 @@ app.get("/", (request, response) => {
 });
 
 app.post("/", (request, response) => {
+  const { name, password } = request.body;
+
+  const registeredUser = users.filter(
+    (user) => user.name === name && user.password === password
+  );
+
   response.send("Hello, Your POST request has arrived.");
 });
 

@@ -3,6 +3,30 @@ import Link from "next/link";
 import { LogoIcon } from "../components/svg/LogoIcon";
 
 export default function Home() {
+  const BACKEND_ENDPOINT = "http://localhost:8888/sign-up-page";
+
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
+
+    const userData = {
+      name: event.target.name.value,
+      password: event.target.password.value,
+      email: event.target.email.value,
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
+
+    const response = await fetch(BACKEND_ENDPOINT, options);
+    const data = await response.json();
+
+    console.log(data);
+  };
   return (
     <div className="w-full h-[1200px] flex">
       <div className="w-[50%] h-full flex justify-center">
@@ -16,18 +40,24 @@ export default function Home() {
               Sign up below to create your Wallet account
             </p>
           </div>
-          <form className="w-full flex flex-col gap-[16px]">
+          <form
+            onSubmit={handleOnSubmit}
+            className="w-full flex flex-col gap-[16px]"
+          >
             <input
+              name="name"
               className="rounded-lg border border-[#D1D5DB] px-[16px] py-[12px] bg-[#F3F4F6]"
               placeholder="Name"
               type="text"
             />
             <input
+              name="email"
               className="rounded-lg border border-[#D1D5DB] px-[16px] py-[12px] bg-[#F3F4F6]"
               placeholder="Email"
-              type="password"
+              type="text"
             />
             <input
+              name="password"
               className="rounded-lg border border-[#D1D5DB] px-[16px] py-[12px] bg-[#F3F4F6]"
               placeholder="Password"
               type="password"
@@ -38,7 +68,7 @@ export default function Home() {
               type="password"
             />
             <button className="rounded-[20px] border text-white border-[#D1D5DB] px-[16px] py-[12px] bg-[#0166FF]">
-              Log in
+              Sign up
             </button>
           </form>
           <div className="flex gap-[8px]">

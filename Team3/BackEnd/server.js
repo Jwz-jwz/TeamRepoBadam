@@ -18,7 +18,7 @@ app.get("/", (request, response) => {
   response.send("Hello, GET request just arrived.");
 });
 
-app.get("/sign-in", (request, response) => {
+app.post("/sign-in", (request, response) => {
   const { name, password } = request.body;
 
   const registeredUser = users.filter(
@@ -26,9 +26,13 @@ app.get("/sign-in", (request, response) => {
   );
 
   if (registeredUser.length > 0) {
-    response.send("Successfully arrived");
+    response.json({
+      success: true,
+    });
   } else {
-    response.send("User not found");
+    response.json({
+      success: false,
+    });
   }
 });
 

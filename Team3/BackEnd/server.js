@@ -2,45 +2,20 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import fs from "fs";
+import { error } from "console";
 
-const port = 8000;
+const port = 8888;
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 
-const users = [
-  {
-    id: 1,
-    name: "Boloro",
-    password: "12345678",
-  },
-];
-
 app.get("/", (request, response) => {
-  response.send("Hello, GET request just arrived.");
+  response.send("Hello GET huselt irlee");
 });
 
 app.post("/sign-in", (request, response) => {
   const { name, password } = request.body;
-
-  const registeredUser = users.filter(
-    (user) => user.name === name && user.password === password
-  );
-
-  if (registeredUser.length > 0) {
-    response.json({
-      success: true,
-    });
-  } else {
-    response.json({
-      success: false,
-    });
-  }
-});
-
-app.post("/sign-up", (request, response) => {
-  const { name, email, password } = request.body;
 
   fs.readFile("./data/user.json", "utf-8", (readError, data) => {
     if (readError) {
@@ -50,7 +25,38 @@ app.post("/sign-up", (request, response) => {
       });
     }
 
-    let savedData = JSON.parse(data);
+    let savedData = data ? JSON.parse(data) : [];
+
+    const registeredUser = savedData.filter(
+      (user) => user.name === name && user.password === password
+    );
+    if (registeredUser.length > 0) {
+      response.json({
+        success: true,
+        user: registeredUser[0],
+      });
+    } else {
+      response.json({
+        success: false,
+      });
+    }
+  });
+});
+
+app.post("/sign-up", (request, response) => {
+  const { name, email, password } = request.body;
+
+  fs.readFile("./data/user.json", "utf-8", (readError, data) => {
+    let savedData = data ? JSON.parse(data) : [];
+
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
+
+    console.log(data);
 
     const newUser = {
       id: Date.now().toString(),
@@ -60,8 +66,8 @@ app.post("/sign-up", (request, response) => {
     };
     savedData.push(newUser);
 
-    fs.writeFile("./data/user.json", JSON.stringify(savedData), () => {
-      if (readError) {
+    fs.writeFile("./data/user.json", JSON.stringify(savedData), (error) => {
+      if (error) {
         response.json({
           success: false,
           error: error,
@@ -77,5 +83,5 @@ app.post("/sign-up", (request, response) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is working http://localhost:${port}`);
+  console.log(`Server ajillaj bn http://localhost:${port}`);
 });

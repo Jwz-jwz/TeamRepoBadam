@@ -3,6 +3,29 @@ import Link from "next/link";
 import { LogoIcon } from "../svg/LogoIcon";
 
 const LoginPage = () => {
+  const BACKEND_ENDPOINT = "http://localhost:8888";
+
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
+
+    const userData = {
+      name: event.target.name.value,
+      password: event.target.password.value,
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
+
+    const response = await fetch(BACKEND_ENDPOINT, options);
+    const data = await response.json();
+
+    console.log(data);
+  };
   return (
     <div className="w-full h-[1200px] flex">
       <div className="w-[50%] h-full flex justify-center">
@@ -16,13 +39,18 @@ const LoginPage = () => {
               Welcome back, Please enter your details
             </p>
           </div>
-          <form className="w-full flex flex-col gap-[16px]">
+          <form
+            onSubmit={handleOnSubmit}
+            className="w-full flex flex-col gap-[16px]"
+          >
             <input
+              name="name"
               className="rounded-lg border border-[#D1D5DB] px-[16px] py-[12px] bg-[#F3F4F6]"
               placeholder="Username"
               type="text"
             />
             <input
+              name="password"
               className="rounded-lg border border-[#D1D5DB] px-[16px] py-[12px] bg-[#F3F4F6]"
               placeholder="Password"
               type="password"

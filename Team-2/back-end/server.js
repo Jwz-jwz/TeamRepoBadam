@@ -1,13 +1,87 @@
-const http = require("http");
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import fs from "fs";
+import { error } from "console";
 
-const port = 2222;
+const port = 8888;
+const app = express();
 
-const server = http.createServer((request, response) => {
-  response.statusCode = 200;
-  response.setHeader("Content-Type", "text/html");
-  response.end("<h1>Hello first tag</h1>");
+app.use(bodyParser.json());
+app.use(cors());
+
+app.get("/", (request, response) => {
+  response.send("Hello GET huselt irlee");
 });
 
-server.listen(port, () => {
-  console.log(`Server ajillaj ehellee port: http://localhost:${port}`);
+app.post("/sign-in", (request, response) => {
+  const { name, password } = request.body;
+
+  fs.readFile("./data/user.json", "utf-8", (readError, data) => {
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
+
+    let savedData = data ? JSON.parse(data) : [];
+
+    const registeredUser = savedData.filter(
+      (user) => user.name === name && user.password === password
+    );
+    if (registeredUser.length > 0) {
+      response.json({
+        success: true,
+        user: registeredUser[0],
+      });
+    } else {
+      response.json({
+        success: false,
+      });
+    }
+  });
+});
+
+app.post("/sign-up", (request, response) => {
+  const { name, email, password } = request.body;
+
+  fs.readFile("./data/user.json", "utf-8", (readError, data) => {
+    let savedData = data ? JSON.parse(data) : [];
+
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
+
+    console.log(data);
+
+    const newUser = {
+      id: Date.now().toString(),
+      name: name,
+      email: email,
+      password: password,
+    };
+    savedData.push(newUser);
+
+    fs.writeFile("./data/user.json", JSON.stringify(savedData), (error) => {
+      if (error) {
+        response.json({
+          success: false,
+          error: error,
+        });
+      } else {
+        response.json({
+          success: true,
+          user: newUser,
+        });
+      }
+    });
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server ajillaj bn http://localhost:${port}`);
 });

@@ -6,7 +6,7 @@ import { ProductCard } from "./ProductCard";
 import { CloseIcon } from "../svg/CloseIcon";
 
 export default function HomePage() {
-  const BACKEND_ENDPOINT = "http://localhost:7777";
+  const BACKEND_ENDPOINT = "http://localhost:5555";
   const [addPro, setAddPro] = useState(false);
   const [category, setCategory] = useState("");
 

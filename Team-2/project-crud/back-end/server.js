@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import fs from "fs";
 import cors from "cors";
 
-const port = 7777;
+const port = 5555;
 const app = express();
 
 app.use(bodyParser.json());
@@ -27,7 +27,7 @@ app.post("/", (request, response) => {
     const newUser = {
       id: Date.now().toString(),
       name: name,
-      angilal: angilal,
+      category: category,
       price: price,
     };
     savedData.push(newUser);

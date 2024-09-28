@@ -4,27 +4,26 @@ import { LogoIcon } from "@/app/svg/LogoIcon";
 import Link from "next/link";
 
 const SignInPage = () => {
-  // const BACKEND_ENDPOINT = "http://localhost:3000/sign-in";
+  const BACKEND_ENDPOINT = "http://localhost:3000/sign-in";
 
-  // const handleOnSubmit = async (event) => {
-  //   event.preventDefault();
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
 
-  //   const userData = {
-  //     name: event.target.name.value,
-  //     password: event.target.password.value,
-  //   };
-  //   const options = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(userData),
-  //   };
+    const userData = {
+      name: event.target.name.value,
+      password: event.target.password.value,
+    };
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
 
-  //   const response = await fetch(BACKEND_ENDPOINT, options);
-  //   const data = await response.json();
-
-  // };
+    const response = await fetch(BACKEND_ENDPOINT, options);
+    const data = await response.json();
+  };
 
   return (
     <main>

@@ -1,1 +1,29 @@
-[{"id":"1727407373133"}]
+[
+  { "id": "1", "name": "Badam", "password": "Pine1", "email": "badam@nest.mn" },
+  {
+    "id": "2",
+    "name": "Namuunaa",
+    "password": "Pine2",
+    "email": "namuun@nest.mn"
+  },
+  { "id": "3", "name": "Tox", "password": "Pine3", "email": "bolor@nest.mn" },
+  {
+    "id": "4",
+    "name": "Buyanaa",
+    "password": "Pine4",
+    "email": "buyanaa@nest.mn"
+  },
+  {
+    "id": "5",
+    "name": "Sarnai",
+    "password": "Pine5",
+    "email": "sarnai@nest.mn"
+  },
+  {
+    "id": "6",
+    "name": "Javzaa",
+    "password": "Pine6",
+    "email": "javzaa@nest.mn"
+  },
+  { "id": "1727530918235" }
+]

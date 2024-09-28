@@ -4,27 +4,28 @@ import Link from "next/link";
 import { LogoIcon } from "../svg/LogoIcon";
 
 export const SignUpPage = () => {
-  //   const BACKEND_ENDPOINT = "http://localhost:3000/sign-up";
+  const BACKEND_ENDPOINT = "http://localhost:3000/sign-up";
 
-  //   const handleOnSubmit = async (event) => {
-  //     event.preventDefault();
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
 
-  //     const userData = {
-  //       name: event.target.name.value,
-  //       password: event.target.password.value,
-  //     };
-  //     const options = {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(userData),
-  //     };
+    const userData = {
+      name: event.target.name.value,
+      password: event.target.password.value,
+    };
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
 
-  //     const response = await fetch(BACKEND_ENDPOINT, options);
-  //     const data = await response.json();
+    const response = await fetch(BACKEND_ENDPOINT, options);
+    const data = await response.json();
 
-  //    };
+    console.log(data);
+  };
 
   return (
     <div className="">

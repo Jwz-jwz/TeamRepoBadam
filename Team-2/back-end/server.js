@@ -56,14 +56,13 @@ app.post("/sign-up", (request, response) => {
       });
     }
 
-    console.log(data);
-
     const newUser = {
       id: Date.now().toString(),
-      name: name,
-      email: email,
-      password: password,
+      name: body.name,
+      email: body.email,
+      password: body.password,
     };
+
     savedData.push(newUser);
 
     fs.writeFile("./data/user.json", JSON.stringify(savedData), (error) => {

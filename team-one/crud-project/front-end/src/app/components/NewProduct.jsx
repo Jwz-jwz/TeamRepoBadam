@@ -1,21 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 import { ProductCard } from "./ProductCard";
 
 export default function AddNewProduct({ addPro, handleNewProduct }) {
   const BACKEND_ENDPOINT = "http://localhost:7777";
   const [category, setCategory] = useState("");
-  const [resData, setResData] = useState();
+  const [resData, setResData] = useState([]);
 
   const handleCategory = (e) => {
     setCategory(e.target.value);
   };
 
   const handleOnSubmit = async (event) => {
-    event.preventDefault();
-
     const userData = {
       name: event.target.name.value,
       angilal: category,
@@ -97,12 +95,16 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
           </div>
         </form>
       </div>
-      <div className={`${addPro ? "hidden" : "flex"}`}>
-        <ProductCard
-          name={resData?.name}
-          angilal={resData?.angilal}
-          price={resData?.price}
-        />
+
+      <div>
+        {resData.map((data) => (
+          <ProductCard
+            key={data.id}
+            name={data.name}
+            angilal={data.angilal}
+            price={data.price}
+          />
+        ))}
       </div>
     </div>
   );

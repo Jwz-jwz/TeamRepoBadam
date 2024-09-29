@@ -1,20 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 import { ProductCard } from "./ProductCard";
 
 export default function AddNewProduct({ addPro, handleNewProduct }) {
-  const BACKEND_ENDPOINT = "http://localhost:7777";
+  const BACKEND_ENDPOINT = "http://localhost:9999";
   const [category, setCategory] = useState("");
-  const [resData, setResData] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const handleCategory = (e) => {
     setCategory(e.target.value);
   };
 
   const handleOnSubmit = async (event) => {
-    const userData = {
+    event.preventDefault();
+
+    const productData = {
       name: event.target.name.value,
       angilal: category,
       price: event.target.price.value,
@@ -25,13 +27,18 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(productData),
     };
 
     const response = await fetch(BACKEND_ENDPOINT, options);
     const data = await response.json();
-    setResData(data.user);
+    setProducts(data.user);
   };
+  console.log(products);
+
+  // useEffect(() => {
+  //   handleOnSubmit();
+  // }, []);
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -95,9 +102,13 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
           </div>
         </form>
       </div>
-
-      <div>
-        {resData.map((data) => (
+      <ProductCard
+        name={products.name}
+        angilal={products.angilal}
+        price={products.price}
+      />
+      {/* <div>
+        {products.map((data) => (
           <ProductCard
             key={data.id}
             name={data.name}
@@ -105,7 +116,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
             price={data.price}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }

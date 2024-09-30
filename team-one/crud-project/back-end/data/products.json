@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1727411987645",
+    "productName": "pants",
+    "category": "pants",
+    "price": "100"
+  },
+  {
+    "id": "1727707063630",
+    "productName": "pants",
+    "category": "pants",
+    "price": "100"
+  },
+  {
+    "id": "1727707068097",
+    "productName": "pants",
+    "category": "pants",
+    "price": "1000"
+  },
+  {
+    "id": "1727707081580",
+    "productName": "tsants",
+    "category": "shirts",
+    "price": "1000"
+  }
+]

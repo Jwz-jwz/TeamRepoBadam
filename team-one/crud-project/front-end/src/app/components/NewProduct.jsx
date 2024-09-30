@@ -110,7 +110,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
         </form>
       </div>
 
-      <div>
+      <div className="flex gap-[20px]">
         {datas.map((data) => (
           <ProductCard
             key={data.id}

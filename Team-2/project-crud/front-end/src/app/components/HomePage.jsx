@@ -7,15 +7,18 @@ import { CloseIcon } from "../svg/CloseIcon";
 
 export default function HomePage() {
   const BACKEND_ENDPOINT = "http://localhost:7777";
-  const [addPro, setAddPro] = useState(false);
+  const [addProduct, setAddProduct] = useState(false);
   const [category, setCategory] = useState("");
+  // const [createdData, setCreatedData] = useState("");
 
   const handleNewProduct = () => {
-    setAddPro(!addPro);
+    setAddProduct(!addProduct);
   };
   const handleCategory = (e) => {
     setCategory(e.target.value);
   };
+
+  // const createdData=data.
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
@@ -41,7 +44,7 @@ export default function HomePage() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <div className="container ">
-        <header className="h-[130px] border border-grey rounded-[20px] flex items-center justify-between p-2 bg-blue-300">
+        <header className="h-[130px] border border-grey drop-shadow-xl rounded-[20px] flex items-center justify-between p-2 bg-pink-300">
           <img
             className="w-[100px] h-[100px] rounded-[20px]"
             src="./logo.png"
@@ -53,14 +56,17 @@ export default function HomePage() {
             className="w-[500px] border border-grey rounded-[10px]"
             type="text"
           />
-          <button onClick={handleNewProduct} className="btn mr-[20px]">
-            Add new product
+          <button
+            onClick={handleNewProduct}
+            className="btn btn-error mr-[20px]"
+          >
+            Бараа үүсгэх
           </button>
         </header>
       </div>
       <div
         className={`${
-          addPro ? "flex" : "hidden"
+          addProduct ? "flex" : "hidden"
         } w-[597px] h-[484px] flex flex-col rounded-[20px] border border-[#F4F4F4] mt-[100px]`}
       >
         <div className="flex gap-[140px] px-6 py-4">
@@ -112,7 +118,7 @@ export default function HomePage() {
           </div>
           <div className="flex justify-end gap-4 p-6 mr-[10px]">
             <button className="btn">Буцах</button>
-            <button type="submit" className="btn">
+            <button type="submit" className="btn btn-outline btn-error">
               Үүсгэх
             </button>
           </div>

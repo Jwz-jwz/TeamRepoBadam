@@ -45,6 +45,8 @@ app.post("/sign-in", (request, response) => {
 
 app.post("/sign-up", (request, response) => {
   const { name, email, password } = request.body;
+  console.log("name", name);
+  console.log("email", email);
 
   fs.readFile("./data/user.json", "utf-8", (readError, data) => {
     let savedData = data ? JSON.parse(data) : [];
@@ -56,14 +58,15 @@ app.post("/sign-up", (request, response) => {
       });
     }
 
-    console.log(data);
-
     const newUser = {
       id: Date.now().toString(),
       name: name,
       email: email,
       password: password,
     };
+
+    console.log("newUser", newUser);
+
     savedData.push(newUser);
 
     fs.writeFile("./data/user.json", JSON.stringify(savedData), (error) => {

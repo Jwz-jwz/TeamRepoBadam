@@ -4,27 +4,31 @@ import Link from "next/link";
 import { LogoIcon } from "../svg/LogoIcon";
 
 export const SignUpPage = () => {
-  //   const BACKEND_ENDPOINT = "http://localhost:3000/sign-up";
+  const BACKEND_ENDPOINT = "http://localhost:8888/sign-up";
 
-  //   const handleOnSubmit = async (event) => {
-  //     event.preventDefault();
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
 
-  //     const userData = {
-  //       name: event.target.name.value,
-  //       password: event.target.password.value,
-  //     };
-  //     const options = {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(userData),
-  //     };
+    const userData = {
+      name: event.target.name.value,
+      password: event.target.password.value,
+    };
+    console.log("userData", userData);
 
-  //     const response = await fetch(BACKEND_ENDPOINT, options);
-  //     const data = await response.json();
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
 
-  //    };
+    const response = await fetch(BACKEND_ENDPOINT, options);
+    console.log("ress", response);
+
+    const data = await response.json();
+    console.log("data", data);
+  };
 
   return (
     <div className="">
@@ -46,7 +50,7 @@ export const SignUpPage = () => {
               <form
                 className="flex flex-col gap-3"
                 action=""
-                // onSubmit={handleOnSubmit}
+                onSubmit={handleOnSubmit}
               >
                 <input
                   type="text"

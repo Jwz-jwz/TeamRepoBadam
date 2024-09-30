@@ -1,10 +1,10 @@
 import { CloseIcon } from "../svg/CloseIcon";
 
-export const NewProduct = ({ addPro, handleNewProduct }) => {
+export const NewProduct = ({ addProduct, handleNewProduct }) => {
   return (
     <div
       className={`${
-        addPro ? "flex" : "hidden"
+        addProduct ? "flex" : "hidden"
       } w-[597px] h-[484px] flex flex-col rounded-[20px] border border-[#F4F4F4] mt-[100px]`}
     >
       <div className="flex gap-[140px] px-6 py-4">
@@ -52,8 +52,10 @@ export const NewProduct = ({ addPro, handleNewProduct }) => {
         </div>
       </div>
       <div className="flex justify-end gap-4 p-6 mr-[10px]">
-        <button className="btn">Буцах</button>
-        <button className="btn">Үүсгэх</button>
+        <button className="btn btn-error">Буцах</button>
+        <button onClick={handleNewProduct} className="btn btn error">
+          Үүсгэх
+        </button>
       </div>
     </div>
   );

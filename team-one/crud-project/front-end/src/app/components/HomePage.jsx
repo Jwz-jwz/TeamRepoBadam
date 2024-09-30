@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditProduct } from "./EditProduct";
 import { NewProduct } from "./NewProduct";
 import { ProductCard } from "./ProductCard";
@@ -9,6 +9,7 @@ export default function HomePage() {
   const BACKEND_ENDPOINT = "http://localhost:7777";
   const [addPro, setAddPro] = useState(false);
   const [category, setCategory] = useState("");
+  const [products, setProducts] = useState([]);
 
   const handleNewProduct = () => {
     setAddPro(!addPro);
@@ -20,7 +21,7 @@ export default function HomePage() {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
 
-    const userData = {
+    const productData = {
       name: event.target.name.value,
       angilal: category,
       price: event.target.price.value,
@@ -30,13 +31,25 @@ export default function HomePage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(productData),
     };
 
     const response = await fetch(BACKEND_ENDPOINT, options);
     const data = await response.json();
-    console.log(data);
   };
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`${BACKEND_ENDPOINT}/products`);
+      const responseData = await response.json();
+      setProducts(responseData?.product);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className="w-full flex flex-col items-center justify-center">

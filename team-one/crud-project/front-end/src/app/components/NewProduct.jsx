@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 import { ProductCard } from "./ProductCard";
 
 export default function AddNewProduct({ addPro, handleNewProduct }) {
   const BACKEND_ENDPOINT = "http://localhost:7777";
   const [category, setCategory] = useState("");
-  const [resData, setResData] = useState([]);
+  const [datas, setDatas] = useState([]);
 
   const handleCategory = (e) => {
     setCategory(e.target.value);
@@ -30,8 +30,22 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
 
     const response = await fetch(BACKEND_ENDPOINT, options);
     const data = await response.json();
-    setResData(data.user);
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(BACKEND_ENDPOINT);
+      const data = await response?.json();
+      setDatas(data);
+    } catch (error) {
+      console.log("Error fetching data:", error);
+    }
+  };
+  console.log(datas);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -97,7 +111,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
       </div>
 
       <div>
-        {resData.map((data) => (
+        {datas.map((data) => (
           <ProductCard
             key={data.id}
             name={data.name}

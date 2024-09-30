@@ -14,7 +14,9 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
   };
 
   const handleOnSubmit = async (event) => {
-    const userData = {
+    event.preventDefault();
+
+    const productData = {
       productName: event.target.productName.value,
       category: category,
       price: event.target.price.value,
@@ -25,7 +27,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(productData),
     };
 
     const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
@@ -36,7 +38,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
     try {
       const response = await fetch(`${BACKEND_ENDPOINT}/products`);
       const data = await response?.json();
-      setProducts(data);
+      setProducts(data.products);
     } catch (error) {
       console.log("Error fetching data:", error);
     }
@@ -45,6 +47,22 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  // const deleteProduct = async (id) => {
+  //   const productData = {
+  //     id: products.id,
+  //   };
+  //   const options = {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(productData),
+  //   };
+
+  //   const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
+  //   const data = await response.json();
+  // };
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -78,7 +96,6 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
               Барааны ангилал
             </h1>
             <select
-              value={""}
               onChange={handleCategory}
               className="select w-[537px]  clear-start text-gray-400 bg-[#F4F4F4]"
             >
@@ -110,13 +127,8 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
       </div>
 
       <div className="container flex gap-[20px] mt-[30px] flex-wrap">
-        {products.map((data) => (
-          <ProductCard
-            key={data.id}
-            name={data.name}
-            angilal={data.angilal}
-            price={data.price}
-          />
+        {products?.map((product) => (
+          <ProductCard key={product?.id} product={product} />
         ))}
       </div>
     </div>

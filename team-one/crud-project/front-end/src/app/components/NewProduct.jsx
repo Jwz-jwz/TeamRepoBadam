@@ -41,7 +41,6 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
       console.log("Error fetching data:", error);
     }
   };
-  console.log(datas);
 
   useEffect(() => {
     fetchData();
@@ -110,7 +109,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
         </form>
       </div>
 
-      <div>
+      <div className="container flex gap-[20px] mt-[30px] flex-wrap">
         {datas.map((data) => (
           <ProductCard
             key={data.id}

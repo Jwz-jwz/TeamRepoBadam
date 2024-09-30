@@ -11,11 +11,29 @@ app.use(cors());
 app.get("/", (request, response) => {
   response.send("Hello tanii get huselt irlee");
 });
+///////Get request
+app.get("/products", (request, response) => {
+  fs.readFile("./data/products.json", "utf-8", (readError, data) => {
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
+    let dbData = data ? JSON.parse(data) : [];
 
-app.post("/", (request, response) => {
-  const { name, angilal, price } = request.body;
-  fs.readFile("./data/user.json", "utf-8", (readError, data) => {
-    let savedData = data ? JSON.parse(data) : [];
+    response.json({
+      success: true,
+      products: dbData,
+    });
+  });
+});
+
+/////Post request
+app.post("/product", (request, response) => {
+  const { productName, category, price } = request.body;
+  fs.readFile("./data/products.json", "utf-8", (readError, data) => {
+    let dbData = data ? JSON.parse(data) : [];
 
     if (readError) {
       response.json({
@@ -24,15 +42,15 @@ app.post("/", (request, response) => {
       });
     }
 
-    const newUser = {
+    const newProduct = {
       id: Date.now().toString(),
-      name: name,
-      angilal: angilal,
+      productName: productName,
+      category: category,
       price: price,
     };
-    savedData.push(newUser);
+    dbData.push(newProduct);
 
-    fs.writeFile("./data/user.json", JSON.stringify(savedData), (error) => {
+    fs.writeFile("./data/products.json", JSON.stringify(dbData), (error) => {
       if (error) {
         response.json({
           success: false,
@@ -41,10 +59,98 @@ app.post("/", (request, response) => {
       } else {
         response.json({
           success: true,
-          user: newUser,
+          product: newProduct,
         });
       }
     });
+  });
+});
+
+//Delete request
+app.delete("/product", (request, response) => {
+  const { id } = request.body;
+
+  fs.readFile("./data/products.json", "utf-8", (readError, data) => {
+    let dbData = data ? JSON.parse(data) : [];
+
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
+
+    const filteredData = dbData.filter((data) => data.id !== id);
+
+    if (filteredData.length === dbData.length) {
+      response.json({
+        success: false,
+        error: "Product id not found",
+      });
+    }
+
+    fs.writeFile(
+      "./data/products.json",
+      JSON.stringify(filteredData),
+      (error) => {
+        if (error) {
+          response.json({
+            success: false,
+            error: error,
+          });
+        } else {
+          response.json({
+            success: true,
+            products: filteredData,
+          });
+        }
+      }
+    );
+  });
+});
+//Edit request
+app.put("/product", (request, response) => {
+  const { id, productName, category, price } = request.body;
+
+  fs.readFile("./data/products.json", "utf-8", (readError, data) => {
+    let dbData = data ? JSON.parse(data) : [];
+
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
+
+    const editedData = dbData.map((data) => {
+      if (data?.id === id) {
+        return {
+          id: id,
+          productName: productName,
+          category: category,
+          price: price,
+        };
+      }
+      return data;
+    });
+
+    fs.writeFile(
+      "./data/products.json",
+      JSON.stringify(editedData),
+      (error) => {
+        if (error) {
+          response.json({
+            success: false,
+            error: error,
+          });
+        } else {
+          response.json({
+            success: true,
+            products: editedData,
+          });
+        }
+      }
+    );
   });
 });
 

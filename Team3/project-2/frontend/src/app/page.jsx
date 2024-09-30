@@ -3,7 +3,7 @@ import { CancelIcon } from "./components/CancelIcon";
 export default function Home() {
   return (
     <div className="w-full h-full m-auto max-w-7xl flex justify-center bg-stone-800">
-      <div className="">
+      <div className=" ">
         <div className=" w-[587px] h-[484px] bg-white rounded-3xl">
           <div className="h-[64px] flex justify-around items-center border-b border-b-zinc-200 ">
             <button className="justify-start">

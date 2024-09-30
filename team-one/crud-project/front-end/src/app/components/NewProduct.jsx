@@ -7,7 +7,7 @@ import { ProductCard } from "./ProductCard";
 export default function AddNewProduct({ addPro, handleNewProduct }) {
   const BACKEND_ENDPOINT = "http://localhost:7777";
   const [category, setCategory] = useState("");
-  const [datas, setDatas] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const handleCategory = (e) => {
     setCategory(e.target.value);
@@ -15,8 +15,8 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
 
   const handleOnSubmit = async (event) => {
     const userData = {
-      name: event.target.name.value,
-      angilal: category,
+      productName: event.target.productName.value,
+      category: category,
       price: event.target.price.value,
     };
 
@@ -28,22 +28,22 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
       body: JSON.stringify(userData),
     };
 
-    const response = await fetch(BACKEND_ENDPOINT, options);
+    const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
     const data = await response.json();
   };
 
-  const fetchData = async () => {
+  const fetchProducts = async () => {
     try {
-      const response = await fetch(BACKEND_ENDPOINT);
+      const response = await fetch(`${BACKEND_ENDPOINT}/products`);
       const data = await response?.json();
-      setDatas(data);
+      setProducts(data);
     } catch (error) {
       console.log("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchProducts();
   }, []);
 
   return (
@@ -67,7 +67,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
               Барааны нэр
             </h1>
             <input
-              name="name"
+              name="productName"
               type="text"
               placeholder="Product name"
               className="input input-bordered w-[539px] bg-[#F4F4F4] border-none"
@@ -110,7 +110,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
       </div>
 
       <div className="container flex gap-[20px] mt-[30px] flex-wrap">
-        {datas.map((data) => (
+        {products.map((data) => (
           <ProductCard
             key={data.id}
             name={data.name}

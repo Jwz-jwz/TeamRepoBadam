@@ -1,8 +1,8 @@
-import { CancelIcon } from "./svg/CancelIcon";
+import { CancelIcon } from "./CancelIcon";
 
-export const CreateP = () => {
+export const CreateP = ({ handleVisible }) => {
   return (
-    <div className=" w-[587px] h-[484px] bg-white rounded-3xl">
+    <div className=" w-[587px] h-[484px] bg-white rounded-3xl absolute">
       <div className="h-[64px] flex justify-around items-center border-b border-b-zinc-200 ">
         <button className="justify-start">
           <CancelIcon />
@@ -42,7 +42,10 @@ export const CreateP = () => {
       </div>
 
       <div className="h-[88px] flex justify-end pr-[24px] items-center border-t border-t-zinc-200 gap-[16px]">
-        <button className=" w-[70px] h-[40px] shadow-xl rounded-md">
+        <button
+          className=" w-[70px] h-[40px] shadow-xl rounded-md"
+          onClick={handleVisible}
+        >
           Буцах
         </button>
         <button className=" w-[90px] h-[40px] shadow-xl rounded-md bg-stone-800 text-white">

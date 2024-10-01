@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 import { ProductCard } from "./ProductCard";
+import { EditProduct } from "./EditProduct";
 
 export default function AddNewProduct({ addPro, handleNewProduct }) {
   const BACKEND_ENDPOINT = "http://localhost:7777";
   const [category, setCategory] = useState("");
   const [products, setProducts] = useState([]);
+  const [selectedData, setSelectedData] = useState();
 
   const handleCategory = (e) => {
     setCategory(e.target.value);
@@ -15,23 +17,28 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
+    try {
+      const productData = {
+        productName: event.target.productName.value,
+        category: category,
+        price: event.target.price.value,
+      };
 
-    const productData = {
-      productName: event.target.productName.value,
-      category: category,
-      price: event.target.price.value,
-    };
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      };
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData),
-    };
+      const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
+      const data = await response.json();
 
-    const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
-    const data = await response.json();
+      setProducts((prev) => [...prev, data?.product]);
+    } catch {
+      console.log("aldaa");
+    }
   };
 
   const fetchProducts = async () => {
@@ -44,31 +51,33 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
     }
   };
 
+  const deleteProduct = async (e) => {
+    const productData = {
+      id: e.productId,
+    };
+
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(productData),
+    };
+
+    const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
+    const data = await response.json();
+    setProducts(data.products);
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
-
-  // const deleteProduct = async (id) => {
-  //   const productData = {
-  //     id: products.id,
-  //   };
-  //   const options = {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(productData),
-  //   };
-
-  //   const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
-  //   const data = await response.json();
-  // };
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <div
         className={`${
-          addPro ? "flex" : "hidden"
+          addPro ? "flex, absolute top-[200px] z-10 " : "hidden"
         } w-[597px] h-[484px] flex flex-col rounded-[20px] border border-[#F4F4F4] mt-[100px]`}
       >
         <div className="flex gap-[140px] px-6 py-4">
@@ -128,9 +137,16 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
 
       <div className="container flex gap-[20px] mt-[30px] flex-wrap">
         {products?.map((product) => (
-          <ProductCard key={product?.id} product={product} />
+          <ProductCard
+            key={product?.id}
+            product={product}
+            deleteProduct={deleteProduct}
+          />
         ))}
       </div>
+      {/* <div>
+        <EditProduct />
+      </div> */}
     </div>
   );
 }

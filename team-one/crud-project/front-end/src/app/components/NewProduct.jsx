@@ -12,7 +12,6 @@ export default function AddNewProduct({
   handleOnSubmit,
   deleteProduct,
   products,
-  setProducts,
 }) {
   // const BACKEND_ENDPOINT = "http://localhost:7777";
   // const [category, setCategory] = useState("");
@@ -149,7 +148,6 @@ export default function AddNewProduct({
             key={product?.id}
             product={product}
             deleteProduct={deleteProduct}
-            setProducts={setProducts}
           />
         ))}
       </div>

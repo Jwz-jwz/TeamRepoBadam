@@ -10,9 +10,13 @@ export const HomePageMain = () => {
     setAddPro(!addPro);
   };
   return (
-    <div>
-      <Header addPro={addPro} handleNewProduct={handleNewProduct} />
-      <AddNewProduct addPro={addPro} handleNewProduct={handleNewProduct} />
+    <div className="relative">
+      <div className="">
+        <Header addPro={addPro} handleNewProduct={handleNewProduct} />
+      </div>
+      <div className="">
+        <AddNewProduct addPro={addPro} handleNewProduct={handleNewProduct} />
+      </div>
     </div>
   );
 };

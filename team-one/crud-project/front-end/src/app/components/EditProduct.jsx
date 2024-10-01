@@ -15,7 +15,7 @@ export const EditProduct = ({ showEdit, product }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(editProduct),
+        body: JSON.stringify(product),
       };
       const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
 
@@ -45,13 +45,14 @@ export const EditProduct = ({ showEdit, product }) => {
         </button>
         <h1 className="text-[24px] leading-[31.2px] font-[700]">Бараа засах</h1>
       </div>
-      <form onSubmit={editProdcuct} className="flex flex-col gap-4 p-6">
+      <div className="flex flex-col gap-4 p-6">
         <div className="flex flex-col gap-2">
           <h1 className="text-[14px] leading-[19.6px] font-[400]">
             Барааны нэр :
           </h1>
           <input
-            name="editedProductName"
+            onChange={handleInputChange}
+            name="productName"
             placeholder={product?.productName}
             type="text"
             className="input input-bordered w-[539px] bg-[#F4F4F4] border-none"
@@ -62,8 +63,8 @@ export const EditProduct = ({ showEdit, product }) => {
             Барааны ангилал
           </h1>
           <select
+            onChange={handleInputChange}
             placeholder={product?.category}
-            onChange={editCategoryValueFunction}
             className="select w-[537px]  clear-start text-gray-400 bg-[#F4F4F4]"
           >
             <option disabled selected>
@@ -78,18 +79,19 @@ export const EditProduct = ({ showEdit, product }) => {
         <div className="flex flex-col gap-2">
           <h1 className="text-[14px] leading-[19.6px] font-[400]">Үнэ</h1>
           <input
+            onChange={handleInputChange}
             placeholder={product?.price}
-            name="editedProductPrice"
+            name="price"
             type="text"
             className="input input-bordered w-[539px] bg-[#F4F4F4] border-none"
           />
         </div>
-      </form>
+      </div>
       <div className="flex justify-end gap-4 p-6 mr-[10px]">
         <button onClick={showEdit} className="btn">
           Буцах
         </button>
-        <button type="submit" className="btn">
+        <button onClick={editedProduct} className="btn">
           Засах
         </button>
       </div>

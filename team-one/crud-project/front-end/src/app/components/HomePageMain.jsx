@@ -72,32 +72,6 @@ export const HomePageMain = () => {
     const data = await response.json();
     setProducts(data.products);
   };
-  const [editCategoryValue, seteditCategoryValue] = useState("");
-
-  const editCategoryValueFunction = (e) => {
-    seteditCategoryValue(e.target.value);
-  };
-  const editProdcuct = async (event) => {
-    event.preventDefault();
-    const editedValue = {
-      id: e.productId,
-      productName: event.target.editedProductName.value,
-      category: editCategoryValue,
-      price: event.target.editedProductPrice.value,
-    };
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(editedValue),
-    };
-    const response = await fetch(BACKEND_ENDPOINT, options);
-    const data = await response.json();
-
-    setProducts(data.products);
-    showEdit(!isEdit);
-  };
 
   useEffect(() => {
     fetchProducts();
@@ -116,7 +90,6 @@ export const HomePageMain = () => {
           handleOnSubmit={handleOnSubmit}
           deleteProduct={deleteProduct}
           products={products}
-          setProducts={setProducts}
         />
       </div>
     </div>

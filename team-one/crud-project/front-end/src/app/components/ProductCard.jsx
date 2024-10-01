@@ -3,10 +3,13 @@ import { DeleteIcon } from "../svg/DeleteIcon";
 import { EditIcon } from "../svg/Editicon";
 import { EditProduct } from "./EditProduct";
 
-export const ProductCard = ({ product, deleteProduct }) => {
+export const ProductCard = ({
+  product,
+  deleteProduct,
+  editProduct,
+  setProducts,
+}) => {
   const { productName, category, price, id } = product;
-
-  // const BACKEND_ENDPOINT = "http://localhost:7777";
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -25,7 +28,7 @@ export const ProductCard = ({ product, deleteProduct }) => {
             <button onClick={() => deleteProduct({ productId })}>
               <DeleteIcon />
             </button>
-            <button onClick={showEdit}>
+            <button onClick={() => editProduct({ productId })}>
               <EditIcon />
             </button>
           </div>
@@ -34,7 +37,11 @@ export const ProductCard = ({ product, deleteProduct }) => {
         <p>Барааны үнэ: {price}</p>
       </div>
       <div className={`${isEdit ? "flex" : "hidden"} absolute`}>
-        <EditProduct showEdit={showEdit} product={product} />
+        <EditProduct
+          setProducts={setProducts}
+          showEdit={showEdit}
+          product={product}
+        />
       </div>
     </div>
   );

@@ -5,73 +5,81 @@ import { CloseIcon } from "../svg/CloseIcon";
 import { ProductCard } from "./ProductCard";
 import { EditProduct } from "./EditProduct";
 
-export default function AddNewProduct({ addPro, handleNewProduct }) {
-  const BACKEND_ENDPOINT = "http://localhost:7777";
-  const [category, setCategory] = useState("");
-  const [products, setProducts] = useState([]);
-  const [selectedData, setSelectedData] = useState();
+export default function AddNewProduct({
+  addPro,
+  handleNewProduct,
+  handleCategory,
+  handleOnSubmit,
+  deleteProduct,
+  products,
+  setProducts,
+}) {
+  // const BACKEND_ENDPOINT = "http://localhost:7777";
+  // const [category, setCategory] = useState("");
+  // const [products, setProducts] = useState([]);
 
-  const handleCategory = (e) => {
-    setCategory(e.target.value);
-  };
+  // const handleCategory = (e) => {
+  //   setCategory(e.target.value);
+  // };
 
-  const handleOnSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const productData = {
-        productName: event.target.productName.value,
-        category: category,
-        price: event.target.price.value,
-      };
+  // const handleOnSubmit = async (event) => {
+  //   event.preventDefault();
 
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
-      };
+  //   try {
+  //     const productData = {
+  //       productName: event.target.productName.value,
+  //       category: category,
+  //       price: event.target.price.value,
+  //     };
 
-      const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
-      const data = await response.json();
+  //     const options = {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(productData),
+  //     };
 
-      setProducts((prev) => [...prev, data?.product]);
-    } catch {
-      console.log("aldaa");
-    }
-  };
+  //     const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
+  //     const data = await response.json();
 
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch(`${BACKEND_ENDPOINT}/products`);
-      const data = await response?.json();
-      setProducts(data.products);
-    } catch (error) {
-      console.log("Error fetching data:", error);
-    }
-  };
+  //     setProducts((prev) => [...prev, data?.product]);
+  //   } catch {
+  //     console.log("aldaa garlaa");
+  //   }
+  // };
 
-  const deleteProduct = async (e) => {
-    const productData = {
-      id: e.productId,
-    };
+  // const fetchProducts = async () => {
+  //   try {
+  //     const response = await fetch(`${BACKEND_ENDPOINT}/products`);
+  //     const data = await response?.json();
+  //     setProducts(data.products);
+  //   } catch (error) {
+  //     console.log("Error fetching data:", error);
+  //   }
+  // };
 
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData),
-    };
+  // const deleteProduct = async (e) => {
+  //   const productData = {
+  //     id: e.productId,
+  //   };
 
-    const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
-    const data = await response.json();
-    setProducts(data.products);
-  };
+  //   const options = {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(productData),
+  //   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  //   const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
+  //   const data = await response.json();
+  //   setProducts(data.products);
+  // };
+
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -141,6 +149,7 @@ export default function AddNewProduct({ addPro, handleNewProduct }) {
             key={product?.id}
             product={product}
             deleteProduct={deleteProduct}
+            setProducts={setProducts}
           />
         ))}
       </div>

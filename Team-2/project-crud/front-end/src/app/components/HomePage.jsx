@@ -1,17 +1,34 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { EditProduct } from "./EditProduct";
 import { NewProduct } from "./NewProduct";
 import { ProductCard } from "./ProductCard";
 import { CloseIcon } from "../svg/CloseIcon";
+import { CreateModal } from "./ui/CreateModel";
 
 export default function HomePage() {
   const BACKEND_ENDPOINT = "http://localhost:7777";
-  const [addPro, setAddPro] = useState(false);
+  const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
 
+  //   const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`${BACKEND_ENDPOINT}/products`);
+      const responseData = await response.json();
+      setProducts(responseData?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   const handleNewProduct = () => {
-    setAddPro(!addPro);
+    setProducts(!products);
   };
   const handleCategory = (e) => {
     setCategory(e.target.value);
@@ -33,9 +50,9 @@ export default function HomePage() {
       body: JSON.stringify(userData),
     };
 
-    const response = await fetch(BACKEND_ENDPOINT, options);
-    const data = await response.json();
-    console.log(data);
+    // const response = await fetch(BACKEND_ENDPOINT, options);
+    // const data = await response.json();
+    // console.log(data);
   };
 
   return (
@@ -60,7 +77,7 @@ export default function HomePage() {
       </div>
       <div
         className={`${
-          addPro ? "flex" : "hidden"
+          products ? "flex" : "hidden"
         } w-[597px] h-[484px] flex flex-col rounded-[20px] border border-[#F4F4F4] mt-[100px]`}
       >
         <div className="flex gap-[140px] px-6 py-4">
@@ -111,9 +128,11 @@ export default function HomePage() {
             />
           </div>
           <div className="flex justify-end gap-4 p-6 mr-[10px]">
-            <button className="btn">Буцах</button>
+            <form method="dialog" className="modal-backdrop">
+              <button>close</button>
+            </form>
             <button type="submit" className="btn">
-              Үүсгэх
+              <CreateModal />
             </button>
           </div>
         </form>
@@ -121,3 +140,62 @@ export default function HomePage() {
     </div>
   );
 }
+
+// "use client";
+
+// import { Card, CreateModal, EditModal } from "@/components/ui";
+// import { BACKEND_ENDPOINT } from "@/constants/constant";
+// import { useEffect, useState } from "react";
+
+// export default function Home() {
+//   const [products, setProducts] = useState([]);
+
+//   const fetchProducts = async () => {
+//     try {
+//       const response = await fetch(`${BACKEND_ENDPOINT}/products`);
+//       const responseData = await response.json();
+//       setProducts(responseData?.products);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchProducts();
+//   }, []);
+
+//   const handleOnSubmit = async (event) => {
+//     event.preventDefault();
+
+//     const userData = {
+//       name: event.target.name.value,
+//       password: event.target.password.value,
+//     };
+
+//     const options = {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(userData),
+//     };
+
+//     const response = await fetch(BACKEND_ENDPOINT, options);
+//     const data = await response.json();
+//   };
+
+//   return (
+//     <div className="flex justify-center w-full p-6">
+//       <div className="max-w-[1200px]">
+//         <div className="flex justify-end ">
+//           <CreateModal />
+//         </div>
+//         <div className="flex flex-wrap justify-between gap-5 mt-6">
+//           {products?.map((product) => {
+//             return <Card key={product?.id} product={product} />;
+//           })}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }

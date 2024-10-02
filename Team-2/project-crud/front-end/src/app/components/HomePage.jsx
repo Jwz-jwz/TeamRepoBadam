@@ -7,8 +7,8 @@ import { CloseIcon } from "../svg/CloseIcon";
 import { CreateModal } from "./ui/CreateModel";
 
 export default function HomePage() {
-  const BACKEND_ENDPOINT = "http://localhost:7777";
-  const [products, setProducts] = useState([]);
+  const BACKEND_ENDPOINT = "http://localhost:8888";
+  const [products, setProducts] = useState([""]);
   const [category, setCategory] = useState("");
 
   //   const [products, setProducts] = useState([]);
@@ -23,6 +23,7 @@ export default function HomePage() {
     }
   };
 
+  console.log(products);
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -49,10 +50,6 @@ export default function HomePage() {
       },
       body: JSON.stringify(userData),
     };
-
-    // const response = await fetch(BACKEND_ENDPOINT, options);
-    // const data = await response.json();
-    // console.log(data);
   };
 
   return (

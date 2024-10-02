@@ -23,7 +23,7 @@ export const ProductCard = ({ product, deleteProduct }) => {
             <button onClick={() => deleteProduct({ productId })}>
               <DeleteIcon />
             </button>
-            <button onClick={showEdit}>
+            <button onClick={() => showEdit({ productId })}>
               <EditIcon />
             </button>
           </div>
@@ -32,7 +32,11 @@ export const ProductCard = ({ product, deleteProduct }) => {
         <p>Барааны үнэ: {price}</p>
       </div>
       <div className={`${isEdit ? "flex" : "hidden"} absolute`}>
-        <EditProduct showEdit={showEdit} product={product} />
+        <EditProduct
+          productId={productId}
+          showEdit={showEdit}
+          product={product}
+        />
       </div>
     </div>
   );

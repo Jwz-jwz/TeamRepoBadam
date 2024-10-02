@@ -1,44 +1,60 @@
 import { useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 
-export const EditProduct = ({ showEdit, product }) => {
+export const EditProduct = ({ showEdit, product, productId }) => {
   const BACKEND_ENDPOINT = "http://localhost:7777";
 
   const [editProduct, setEditProduct] = useState(product);
+  const [editedCategory, setEditCategory] = useState();
 
   const editedProduct = async (event) => {
     event.preventDefault();
 
+    const editedCategory = (e) => {
+      setEditCategory(e.target.value);
+    };
+
     try {
+      const editPro = {
+        id: productId,
+        productName: event.target.productName.value,
+        category: editedCategory,
+        price: event.target.price.value,
+      };
       const options = {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(product),
+        body: JSON.stringify(editPro),
       };
       const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
+      const data = await response.json();
 
+      setEditProduct(data.products);
       showEdit(!isEdit);
     } catch {
-      console.log("Something went");
+      console.log("Something went wrong");
     }
   };
 
-  const handleInputChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
+  // const handleInputChange = (event) => {
+  //   const name = event.target.name;
+  //   const value = event.target.value;
 
-    setEditProduct((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-  };
+  //   setEditProduct((prev) => {
+  //     return {
+  //       ...prev,
+  //       [name]: value,
+  //     };
+  //   });
+  // };
 
   return (
-    <div className="w-[597px] h-[484px] flex flex-col rounded-[20px] border border-[#F4F4F4] bg-green-100">
+    <form
+      onSubmit={editedProduct}
+      className="w-[597px] h-[484px] flex flex-col rounded-[20px] border border-[#F4F4F4] bg-green-100"
+    >
       <div className="flex gap-[140px] px-6 py-4">
         <button onClick={showEdit}>
           <CloseIcon />
@@ -51,7 +67,6 @@ export const EditProduct = ({ showEdit, product }) => {
             Барааны нэр :
           </h1>
           <input
-            onChange={handleInputChange}
             name="productName"
             placeholder={product?.productName}
             type="text"
@@ -63,7 +78,7 @@ export const EditProduct = ({ showEdit, product }) => {
             Барааны ангилал
           </h1>
           <select
-            onChange={handleInputChange}
+            onChange={editedCategory}
             placeholder={product?.category}
             className="select w-[537px]  clear-start text-gray-400 bg-[#F4F4F4]"
           >
@@ -79,7 +94,6 @@ export const EditProduct = ({ showEdit, product }) => {
         <div className="flex flex-col gap-2">
           <h1 className="text-[14px] leading-[19.6px] font-[400]">Үнэ</h1>
           <input
-            onChange={handleInputChange}
             placeholder={product?.price}
             name="price"
             type="text"
@@ -91,10 +105,10 @@ export const EditProduct = ({ showEdit, product }) => {
         <button onClick={showEdit} className="btn">
           Буцах
         </button>
-        <button onClick={editedProduct} className="btn">
+        <button type="submit" onClick={editedProduct} className="btn">
           Засах
         </button>
       </div>
-    </div>
+    </form>
   );
 };

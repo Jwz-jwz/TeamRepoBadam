@@ -1,5 +1,4 @@
 import { Header } from "./components/Header";
-import { CreateP } from "./components/CreateP";
 
 export default function Home() {
   return (

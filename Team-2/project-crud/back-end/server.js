@@ -1,22 +1,39 @@
 import express from "express";
 import bodyParser from "body-parser";
-import fs from "fs";
 import cors from "cors";
+import fs from "fs";
 
-const port = 7777;
+const port = 8888;
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+
 app.get("/", (request, response) => {
-  response.send("Hello tanii get huselt irlee");
+  response.send("Hello GET huselt irlee");
 });
 
-app.post("/", (request, response) => {
-  const { name, angilal, price } = request.body;
-  fs.readFile("./data/user.json", "utf-8", (readError, data) => {
-    let savedData = data ? JSON.parse(data) : [];
+app.get("/products", (request, response) => {
+  fs.readFile("./data/products.json", "utf-8", (readError, data) => {
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
+    let dbData = data ? JSON.parse(data) : [];
 
+    response.json({
+      success: true,
+      products: dbData,
+    });
+  });
+});
+
+app.post("/product", (request, response) => {
+  const { productName, category, price } = request.body;
+
+  fs.readFile("./data/products.json", "utf-8", (readError, data) => {
     if (readError) {
       response.json({
         success: false,
@@ -24,15 +41,18 @@ app.post("/", (request, response) => {
       });
     }
 
-    const newUser = {
+    let dbData = data ? JSON.parse(data) : [];
+
+    const newProduct = {
       id: Date.now().toString(),
-      name: name,
-      angilal: angilal,
+      productName: productName,
+      category: category,
       price: price,
     };
-    savedData.push(newUser);
 
-    fs.writeFile("./data/user.json", JSON.stringify(savedData), (error) => {
+    dbData.push(newProduct);
+
+    fs.writeFile("./data/products.json", JSON.stringify(dbData), (error) => {
       if (error) {
         response.json({
           success: false,
@@ -41,174 +61,100 @@ app.post("/", (request, response) => {
       } else {
         response.json({
           success: true,
-          user: newUser,
+          product: newProduct,
         });
       }
     });
   });
 });
 
-app.listen(port, () => {
-  console.log(`server ajillaj ehelle http://localhost:${port}`);
+app.delete("/product", (request, response) => {
+  const { id } = request.body;
+
+  fs.readFile("./data/products.json", "utf-8", (readError, data) => {
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
+
+    let dbData = data ? JSON.parse(data) : [];
+
+    const filteredData = dbData.filter((data) => data?.id !== id);
+
+    if (filteredData.length === dbData.length) {
+      response.json({
+        success: false,
+        error: "Product id not found",
+      });
+    }
+
+    fs.writeFile(
+      "./data/products.json",
+      JSON.stringify(filteredData),
+      (error) => {
+        if (error) {
+          response.json({
+            success: false,
+            error: error,
+          });
+        } else {
+          response.json({
+            success: true,
+            products: filteredData,
+          });
+        }
+      }
+    );
+  });
 });
 
-// import express from "express";
-// import bodyParser from "body-parser";
-// import cors from "cors";
-// import fs from "fs";
+app.put("/product", (request, response) => {
+  const { id, productName, category, price } = request.body;
 
-// const port = 8888;
-// const app = express();
+  fs.readFile("./data/products.json", "utf-8", (readError, data) => {
+    if (readError) {
+      response.json({
+        success: false,
+        error: error,
+      });
+    }
 
-// app.use(bodyParser.json());
-// app.use(cors());
+    let dbData = data ? JSON.parse(data) : [];
 
-// app.get("/", (request, response) => {
-//   response.send("Hello GET huselt irlee");
-// });
+    const editedData = dbData.map((data) => {
+      if (data?.id === id) {
+        return {
+          id,
+          productName,
+          category,
+          price,
+        };
+      }
+      return data;
+    });
 
-// app.get("/products", (request, response) => {
-//   fs.readFile("./data/products.json", "utf-8", (readError, data) => {
-//     if (readError) {
-//       response.json({
-//         success: false,
-//         error: error,
-//       });
-//     }
-//     let dbData = data ? JSON.parse(data) : [];
+    fs.writeFile(
+      "./data/products.json",
+      JSON.stringify(editedData),
+      (error) => {
+        if (error) {
+          response.json({
+            success: false,
+            error: error,
+          });
+        } else {
+          response.json({
+            success: true,
+            products: editedData,
+          });
+        }
+      }
+    );
+  });
+});
 
-//     response.json({
-//       success: true,
-//       products: dbData,
-//     });
-//   });
-// });
-
-// app.post("/product", (request, response) => {
-//   const { productName, category, price } = request.body;
-
-//   fs.readFile("./data/products.json", "utf-8", (readError, data) => {
-//     if (readError) {
-//       response.json({
-//         success: false,
-//         error: error,
-//       });
-//     }
-
-//     let dbData = data ? JSON.parse(data) : [];
-
-//     const newProduct = {
-//       id: Date.now().toString(),
-//       productName: productName,
-//       category: category,
-//       price: price,
-//     };
-
-//     dbData.push(newProduct);
-
-//     fs.writeFile("./data/products.json", JSON.stringify(dbData), (error) => {
-//       if (error) {
-//         response.json({
-//           success: false,
-//           error: error,
-//         });
-//       } else {
-//         response.json({
-//           success: true,
-//           product: newProduct,
-//         });
-//       }
-//     });
-//   });
-// });
-
-// app.delete("/product", (request, response) => {
-//   const { id } = request.body;
-
-//   fs.readFile("./data/products.json", "utf-8", (readError, data) => {
-//     if (readError) {
-//       response.json({
-//         success: false,
-//         error: error,
-//       });
-//     }
-
-//     let dbData = data ? JSON.parse(data) : [];
-
-//     const filteredData = dbData.filter((data) => data?.id !== id);
-
-//     if (filteredData.length === dbData.length) {
-//       response.json({
-//         success: false,
-//         error: "Product id not found",
-//       });
-//     }
-
-//     fs.writeFile(
-//       "./data/products.json",
-//       JSON.stringify(filteredData),
-//       (error) => {
-//         if (error) {
-//           response.json({
-//             success: false,
-//             error: error,
-//           });
-//         } else {
-//           response.json({
-//             success: true,
-//             products: filteredData,
-//           });
-//         }
-//       }
-//     );
-//   });
-// });
-
-// app.put("/product", (request, response) => {
-//   const { id, productName, category, price } = request.body;
-
-//   fs.readFile("./data/products.json", "utf-8", (readError, data) => {
-//     if (readError) {
-//       response.json({
-//         success: false,
-//         error: error,
-//       });
-//     }
-
-//     let dbData = data ? JSON.parse(data) : [];
-
-//     const editedData = dbData.map((data) => {
-//       if (data?.id === id) {
-//         return {
-//           id,
-//           productName,
-//           category,
-//           price,
-//         };
-//       }
-//       return data;
-//     });
-
-//     fs.writeFile(
-//       "./data/products.json",
-//       JSON.stringify(editedData),
-//       (error) => {
-//         if (error) {
-//           response.json({
-//             success: false,
-//             error: error,
-//           });
-//         } else {
-//           response.json({
-//             success: true,
-//             products: editedData,
-//           });
-//         }
-//       }
-//     );
-//   });
-// });
-
-// app.listen(port, () => {
-//   console.log(`Server ajillaj bn http://localhost:${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Server ajillaj bn http://localhost:${port}`);
+});

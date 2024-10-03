@@ -8,7 +8,7 @@ export const EditProduct = ({ showEdit, product, productId }) => {
   const [editedCategory, setEditCategory] = useState();
 
   const editedProduct = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     const editedCategory = (e) => {
       setEditCategory(e.target.value);
@@ -39,6 +39,9 @@ export const EditProduct = ({ showEdit, product, productId }) => {
       console.log("Something went wrong");
     }
   };
+  useEffect(() => {
+    editedProduct();
+  }, [editProduct]);
 
   return (
     <form

@@ -24,10 +24,7 @@ app.get("/products", (request, response) => {
     }
     let dbData = data ? JSON.parse(data) : [];
 
-    response.json({
-      success: true,
-      products: dbData,
-    });
+    response.json(dbData);
   });
 });
 

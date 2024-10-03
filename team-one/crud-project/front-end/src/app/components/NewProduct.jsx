@@ -13,73 +13,6 @@ export default function AddNewProduct({
   deleteProduct,
   products,
 }) {
-  // const BACKEND_ENDPOINT = "http://localhost:7777";
-  // const [category, setCategory] = useState("");
-  // const [products, setProducts] = useState([]);
-
-  // const handleCategory = (e) => {
-  //   setCategory(e.target.value);
-  // };
-
-  // const handleOnSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     const productData = {
-  //       productName: event.target.productName.value,
-  //       category: category,
-  //       price: event.target.price.value,
-  //     };
-
-  //     const options = {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(productData),
-  //     };
-
-  //     const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
-  //     const data = await response.json();
-
-  //     setProducts((prev) => [...prev, data?.product]);
-  //   } catch {
-  //     console.log("aldaa garlaa");
-  //   }
-  // };
-
-  // const fetchProducts = async () => {
-  //   try {
-  //     const response = await fetch(`${BACKEND_ENDPOINT}/products`);
-  //     const data = await response?.json();
-  //     setProducts(data.products);
-  //   } catch (error) {
-  //     console.log("Error fetching data:", error);
-  //   }
-  // };
-
-  // const deleteProduct = async (e) => {
-  //   const productData = {
-  //     id: e.productId,
-  //   };
-
-  //   const options = {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(productData),
-  //   };
-
-  //   const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
-  //   const data = await response.json();
-  //   setProducts(data.products);
-  // };
-
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
-
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <div
@@ -151,9 +84,6 @@ export default function AddNewProduct({
           />
         ))}
       </div>
-      {/* <div>
-        <EditProduct />
-      </div> */}
     </div>
   );
 }

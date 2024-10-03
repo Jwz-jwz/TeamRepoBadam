@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 
 export const EditProduct = ({ showEdit, product, productId }) => {
@@ -21,6 +21,8 @@ export const EditProduct = ({ showEdit, product, productId }) => {
         category: editedCategory,
         price: event.target.price.value,
       };
+      console.log(editPro);
+
       const options = {
         method: "PUT",
         headers: {
@@ -30,25 +32,13 @@ export const EditProduct = ({ showEdit, product, productId }) => {
       };
       const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
       const data = await response.json();
+      console.log(data);
 
-      setEditProduct(data.products);
-      showEdit(!isEdit);
+      setEditProduct(data?.products);
     } catch {
       console.log("Something went wrong");
     }
   };
-
-  // const handleInputChange = (event) => {
-  //   const name = event.target.name;
-  //   const value = event.target.value;
-
-  //   setEditProduct((prev) => {
-  //     return {
-  //       ...prev,
-  //       [name]: value,
-  //     };
-  //   });
-  // };
 
   return (
     <form
@@ -105,7 +95,7 @@ export const EditProduct = ({ showEdit, product, productId }) => {
         <button onClick={showEdit} className="btn">
           Буцах
         </button>
-        <button type="submit" onClick={editedProduct} className="btn">
+        <button type="submit" onClick={showEdit} className="btn">
           Засах
         </button>
       </div>

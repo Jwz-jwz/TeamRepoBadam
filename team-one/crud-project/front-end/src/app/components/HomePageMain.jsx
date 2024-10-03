@@ -49,7 +49,7 @@ export const HomePageMain = () => {
     try {
       const response = await fetch(`${BACKEND_ENDPOINT}/products`);
       const data = await response?.json();
-      setProducts(data.products);
+      setProducts(data?.products);
     } catch (error) {
       console.log("Error fetching data:", error);
     }
@@ -70,7 +70,7 @@ export const HomePageMain = () => {
 
     const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
     const data = await response.json();
-    setProducts(data.products);
+    setProducts(data?.products);
   };
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 
 export const EditProduct = ({ showEdit, product, productId }) => {
-  const BACKEND_ENDPOINT = "http://localhost:7777";
+  const BACKEND_ENDPOINT = "https://teamrepobadam-crud-project.onrender.com";
 
   const [editProduct, setEditProduct] = useState(product);
   const [editedCategory, setEditCategory] = useState();

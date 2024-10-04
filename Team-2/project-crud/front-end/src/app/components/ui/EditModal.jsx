@@ -1,7 +1,8 @@
-import { BACKEND_ENDPOINT } from "@/constants/constant";
 import { useState } from "react";
+import { BACKEND_ENDPOINT } from "../constants/constant";
 
 export const EditModal = ({ product: productProps }) => {
+  const BACKEND_ENDPOINT = "http://localhost:7777";
   const [product, setProduct] = useState(productProps);
 
   const handleSubmit = async (event) => {

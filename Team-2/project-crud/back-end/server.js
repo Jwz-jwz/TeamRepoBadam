@@ -3,10 +3,11 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import fs from "fs";
 
-const port = 8888;
+const port = 7777;
 const app = express();
 
 app.use(bodyParser.json());
+
 app.use(cors());
 
 app.get("/", (request, response) => {
@@ -31,7 +32,10 @@ app.get("/products", (request, response) => {
 });
 
 app.post("/product", (request, response) => {
+  // console.log("irlee");
+
   const { productName, category, price } = request.body;
+  // console.log("price", price);
 
   fs.readFile("./data/products.json", "utf-8", (readError, data) => {
     if (readError) {

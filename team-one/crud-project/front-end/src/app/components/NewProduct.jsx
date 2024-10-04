@@ -14,13 +14,15 @@ export default function AddNewProduct({
   products,
 }) {
   return (
-    <div className="w-full flex flex-col items-center justify-center">
+    <div className={`w-full flex flex-col items-center justify-center`}>
       <div
         className={`${
-          addPro ? "flex, absolute top-[200px] z-10 " : "hidden"
+          addPro
+            ? "flex justify-center absolute z-10 backdrop-none bg-white top-[200px]"
+            : "hidden"
         } w-[597px] h-[484px] flex flex-col rounded-[20px] border border-[#F4F4F4] mt-[100px]`}
       >
-        <div className="flex gap-[140px] px-6 py-4">
+        <div className="flex gap-[150px] px-6 py-4">
           <button onClick={handleNewProduct}>
             <CloseIcon />
           </button>
@@ -75,7 +77,13 @@ export default function AddNewProduct({
         </form>
       </div>
 
-      <div className="container flex gap-[20px] mt-[30px] flex-wrap">
+      <div
+        className={` ${
+          addPro
+            ? "backdrop - blur - sm container"
+            : "container backdrop - none"
+        } flex gap-[20px] mt-[30px] flex-wrap`}
+      >
         {products?.map((product) => (
           <ProductCard
             key={product?.id}

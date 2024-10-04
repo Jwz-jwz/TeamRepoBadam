@@ -1,4 +1,5 @@
-import { DeleteButton, EditModal } from ".";
+import { DeleteButton } from "./DeleteModal";
+import { EditModal } from "./EditModal";
 
 export const Card = ({ product }) => {
   const { productName, category, price } = product;

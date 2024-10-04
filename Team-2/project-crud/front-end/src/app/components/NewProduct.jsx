@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
+import { CreateModal } from "./ui/CreateModel";
 
-const CreateNewProduct = () => {
-  const BACKEND_ENDPOINT = "http://localhost:8888";
+const CreateNewProduct = ({}) => {
+  const BACKEND_ENDPOINT = "http://localhost:7777";
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
   const [visible, setVisible] = useState(false);
@@ -92,6 +93,17 @@ const CreateNewProduct = () => {
           </div>
           <div className="flex flex-col gap-2">
             <h1 className="text-[14px] leading-[19.6px] text-black font-[400]">
+              Үнэ
+            </h1>
+            <input
+              name="productName"
+              type="text"
+              placeholder="productName"
+              className="input input-bordered w-[539px] text-black bg-[#F4F4F4] border-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-[14px] leading-[19.6px] text-black font-[400]">
               Барааны ангилал
             </h1>
             <select
@@ -128,7 +140,10 @@ const CreateNewProduct = () => {
             Burtgeh
           </button>
         </form>
-        {/* <div className="flex flex-wrap justify-between gap-5 mt-6">
+        {/* <div className="flex justify-end ">
+          <CreateModal />
+        </div>
+        <div className="flex flex-wrap justify-between gap-5 mt-6">
           {products?.map((product) => {
             return <Card key={product?.id} product={product} />;
           })}

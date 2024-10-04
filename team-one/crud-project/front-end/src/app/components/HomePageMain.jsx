@@ -2,10 +2,9 @@
 import { useEffect, useState } from "react";
 import Header from "./Header";
 import AddNewProduct from "./NewProduct";
+import { BACKEND_ENDPOINT } from "@/constants/constant";
 
 export const HomePageMain = () => {
-  const BACKEND_ENDPOINT = "http://localhost:7777";
-
   const [addPro, setAddPro] = useState(false);
   const [category, setCategory] = useState("");
   const [products, setProducts] = useState([]);

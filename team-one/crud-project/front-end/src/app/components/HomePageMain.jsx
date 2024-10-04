@@ -4,7 +4,7 @@ import Header from "./Header";
 import AddNewProduct from "./NewProduct";
 
 export const HomePageMain = () => {
-  const BACKEND_ENDPOINT = "https://teamrepobadam-crud-project.onrender.com";
+  const BACKEND_ENDPOINT = "http://localhost:7777";
 
   const [addPro, setAddPro] = useState(false);
   const [category, setCategory] = useState("");

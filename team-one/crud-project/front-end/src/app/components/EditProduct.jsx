@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
+import { BACKEND_ENDPOINT } from "@/constants/constant";
 
 export const EditProduct = ({ showEdit, product, productId }) => {
-  const BACKEND_ENDPOINT = "http://localhost:7777";
-
   const [editProduct, setEditProduct] = useState(product);
   const [editedCategory, setEditCategory] = useState();
 

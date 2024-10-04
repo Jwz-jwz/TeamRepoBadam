@@ -2,17 +2,16 @@ import { useEffect, useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 
 export const EditProduct = ({ showEdit, product, productId }) => {
-  const BACKEND_ENDPOINT = "https://teamrepobadam-crud-project.onrender.com";
+  const BACKEND_ENDPOINT = "http://localhost:7777";
 
   const [editProduct, setEditProduct] = useState(product);
   const [editedCategory, setEditCategory] = useState();
 
+  const editedOfCategory = (e) => {
+    setEditCategory(e.target.value);
+  };
   const editedProduct = async (event) => {
     // event.preventDefault();
-
-    const editedCategory = (e) => {
-      setEditCategory(e.target.value);
-    };
 
     try {
       const editPro = {
@@ -32,7 +31,6 @@ export const EditProduct = ({ showEdit, product, productId }) => {
       };
       const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
       const data = await response.json();
-      console.log(data);
 
       setEditProduct(data?.products);
     } catch {
@@ -71,7 +69,7 @@ export const EditProduct = ({ showEdit, product, productId }) => {
             Барааны ангилал
           </h1>
           <select
-            onChange={editedCategory}
+            onChange={editedOfCategory}
             placeholder={product?.category}
             className="select w-[537px]  clear-start text-gray-400 bg-[#F4F4F4]"
           >
@@ -98,7 +96,7 @@ export const EditProduct = ({ showEdit, product, productId }) => {
         <button onClick={showEdit} className="btn">
           Буцах
         </button>
-        <button type="submit" onClick={showEdit} className="btn">
+        <button type="submit" className="btn">
           Засах
         </button>
       </div>

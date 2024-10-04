@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { CloseIcon } from "../svg/CloseIcon";
 import { ProductCard } from "./ProductCard";
-import { EditProduct } from "./EditProduct";
 
 export default function AddNewProduct({
   addPro,

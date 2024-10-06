@@ -1,53 +1,93 @@
 "use client";
 import { useState, useEffect } from "react";
-import { CreateModal } from "./ui/CreateModel";
+import { BACKEND_ENDPOINT } from "./constants/constant";
 
-const CreateNewProduct = ({}) => {
-  const BACKEND_ENDPOINT = "http://localhost:7777";
-  const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState("");
+const CreateNewProduct = ({ setProducts }) => {
+  // const BACKEND_ENDPOINT = "http://localhost:7777";
+  // const [products, setProducts] = useState([]);
+  // const [category, setCategory] = useState("");
   const [visible, setVisible] = useState(false);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch(`${BACKEND_ENDPOINT}/products`);
-      const responseData = await response.json();
-      setProducts(responseData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   const handleVisible = () => {
     setVisible(!visible);
   };
-  const handleCategory = (e) => {
-    setCategory(e.target.value);
+
+  const [product, setProduct] = useState({});
+
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      };
+      const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
+      const data = await response.json();
+      setProducts((prevProducts) => [...prevProducts, data.product]);
+    } catch {
+      console.log("error");
+    }
+
+    setProduct({
+      productName: "",
+      category: "",
+      price: "",
+    });
+    document.getElementById("my_modal_1").close();
   };
 
-  const handleOnSubmit = async (event) => {
-    event.preventDefault();
+  const handleInputChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
 
-    const userData = {
-      name: event.target.name.value,
-      category: category,
-      price: event.target.price.value,
-    };
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-
-    const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
-    const data = await response.json();
+    setProduct((prevProduct) => {
+      return {
+        ...prevProduct,
+        [name]: value,
+      };
+    });
   };
+
+  // const fetchProducts = async () => {
+  //   try {
+  //     const response = await fetch(`${BACKEND_ENDPOINT}/products`);
+  //     const responseData = await response.json();
+  //     setProducts(responseData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
+
+  // const handleCategory = (e) => {
+  //   setCategory(e.target.value);
+  // };
+
+  // const handleOnSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   const userData = {
+  //     name: event.target.name.value,
+  //     category: category,
+  //     price: event.target.price.value,
+  //   };
+  //   const options = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(userData),
+  //   };
+
+  //   const response = await fetch(`${BACKEND_ENDPOINT}/product`, options);
+  //   const data = await response.json();
+  // };
 
   return (
     <div className="w-screen h-screen flex flex-col items-center bg-slate-50">
@@ -74,7 +114,57 @@ const CreateNewProduct = ({}) => {
           visible ? "flex" : "hidden"
         } w-[597px] h-[484px] flex flex-col items-center justify-center rounded-[20px] border border-gray-600 mt-[100px]`}
       >
-        <div className="flex gap-[140px] px-6 py-4">
+        {" "}
+        <button
+          className="btn"
+          onClick={() => document.getElementById("my_modal_1").showModal()}
+        >
+          Create product
+        </button>
+        <dialog id="my_modal_1" className="modal">
+          <div className="modal-box">
+            <h3 className="text-lg font-bold">Create product</h3>
+            <div className="flex flex-col gap-3 mt-4">
+              <input
+                name="productName"
+                onChange={handleInputChange}
+                type="text"
+                placeholder="Type here"
+                className="w-full input input-bordered"
+                value={product?.productName}
+              />
+              <input
+                name="category"
+                onChange={handleInputChange}
+                type="text"
+                placeholder="Type here"
+                className="w-full input input-bordered"
+                value={product?.category}
+              />
+              <input
+                name="price"
+                onChange={handleInputChange}
+                type="text"
+                placeholder="Type here"
+                className="w-full input input-bordered"
+                value={product?.price}
+              />
+            </div>
+
+            <button className="mt-4 btn" onClick={handleSubmit}>
+              Submit
+            </button>
+          </div>
+        </dialog>
+      </div>
+    </div>
+  );
+};
+
+export default CreateNewProduct;
+
+{
+  /* <div className="flex gap-[140px] px-6 py-4">
           <h1 className="text-[24px] leading-[31.2px] font-[700] text-black">
             Бараа үүсгэх
           </h1>
@@ -140,17 +230,5 @@ const CreateNewProduct = ({}) => {
             Burtgeh
           </button>
         </form>
-        {/* <div className="flex justify-end ">
-          <CreateModal />
-        </div>
-        <div className="flex flex-wrap justify-between gap-5 mt-6">
-          {products?.map((product) => {
-            return <Card key={product?.id} product={product} />;
-          })}
-        </div> */}
-      </div>
-    </div>
-  );
-};
-
-export default CreateNewProduct;
+    */
+}

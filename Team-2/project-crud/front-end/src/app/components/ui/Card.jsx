@@ -15,12 +15,12 @@ export const Card = ({ product }) => {
         <h2 class="card-title">{productName}</h2>
         <div className="flex justify-between">
           <p>{category}</p>
-          <p>{price}$</p>
+          <p>{price}</p>
         </div>
       </div>
       <div className="justify-end p-4 pt-0 card-actions">
         <EditModal product={product} />
-        <DeleteButton />
+        <DeleteIcon />
       </div>
     </div>
   );

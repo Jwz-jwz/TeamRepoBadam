@@ -29,10 +29,7 @@ app.get("/products", (request, response) => {
 });
 
 app.post("/product", (request, response) => {
-  // console.log("irlee");
-
   const { productName, category, price } = request.body;
-  // console.log("price", price);
 
   fs.readFile("./data/products.json", "utf-8", (readError, data) => {
     if (readError) {
